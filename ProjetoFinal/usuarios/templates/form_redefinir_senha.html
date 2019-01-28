@@ -1,0 +1,37 @@
+ {% extends "base_usuario.html" %}
+
+{% block body %}
+<form class = "form-signin"  method="post" 
+	action="{% url 'form_redefinir_senha' %}">
+	{% csrf_token %}
+
+	<h2 class="form-signin-heading">Redefinir Senha</h2>
+
+	<input 	name="senha_atual" id = "id_senha" class = "form-control"
+            type = "password" required placeholder="Senha atual">
+    
+    
+    <input 	name="nova_senha" id = "id_nova_senha" class = "form-control"
+            type = "password" required placeholder="Nova senha">
+            
+    <input 	name="confirmacao_nova_senha" id = "id_confirmacao_senha" class = "form-control"
+            type = "password" required placeholder="Confirme a nova senha">
+            
+    <hr/>
+
+
+	<button class="btn btn-lg btn-primary btn-block"
+			type = "submit">Salvar</button>
+
+	{% if form.errors %}		
+	<div class="alert alert-danger">
+		<button type="button" class="close"
+				data-dismiss="alert" aria-hidden="true">x				
+		</button>
+		{{ form.non_field_errors }}
+	</div>		
+	{% endif %}
+</form>
+
+
+{% endblock %}

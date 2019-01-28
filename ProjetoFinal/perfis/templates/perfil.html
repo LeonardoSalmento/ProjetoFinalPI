@@ -1,0 +1,296 @@
+{% extends 'base.html' %}
+{% include "toastmessages_fragment.html" %}
+{% block body %}
+
+	{% if not perfil.usuario.is_active %}
+
+        <h1>Perfil desativado :(</h1>	
+	
+    
+    {% elif posso_exibir %}
+
+    <div class="col-lg-4">
+        <div class="container">
+        {% if perfil.foto_perfil %}
+            
+            <img src="{{ perfil.foto_perfil.url }}" style="width:100px; height:70px">
+
+        {% else %}
+            <img src="/static/img/photo.jpg" style="width:100px; height:70px">
+        {% endif %}
+
+        <h2 style="margin-top: 0px">{{ perfil.nome }}</h2>
+
+        <address>			
+            Email: <a href = "mailto:{{ perfil.email }}">{{ perfil.email }}</a>
+            <br>
+            Nome da empresa: <strong>{{ perfil.nome_empresa }}</strong>
+        </address>
+
+
+            {% if posso_convidar %}
+
+            <a class="btn btn-default" href="{% url 'convidar' perfil.id %}">
+                Convidar
+            </a>
+            
+            <!--CHAMADA DO TOAST AQUI-->
+            <script src="{{ STATIC_URL }}/js/jquery.toastmessage.js"></script>
+
+            <br>
+            {% endif %}
+
+
+            
+
+            {% if perfil.id == perfil_logado.id %}
+
+            <a
+                class="btn btn-default"
+                href="{% url 'form_redefinir_senha' %}"
+            >Redefinir senha</a>
+            <br>
+
+            <a
+                class="btn btn-default"
+                href="{% url 'alterar_foto_perfil' %}"
+            >Alterar foto do perfil</a>
+
+            <br>
+            <a
+                class="btn btn-default"
+                href="{% url 'desativar_conta' %}"
+            >Desativar conta</a>
+
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        {% if perfil.minhas_postagens.all %}
+
+        <div class="panel-heading">
+            <strong>Postagens</strong>
+        </div>
+
+        <ul class="list-group">
+            {% for postagem in perfil.minhas_postagens.all %}
+
+            <li class="list-group-item">
+                <h3>{{ postagem.dono }}</h3>
+
+                <p>{{ postagem }}</p>
+
+                {% if postagem.dono.id == perfil_logado.id or perfil_logado.superuser %}
+
+                <button class="btn btn-danger pull-right btn-confirm">Excluir</button>
+
+                <div
+                    class="modal fade"
+                    tabindex="-1"
+                    role="dialog"
+                    aria-labelledby="mySmallModalLabel"
+                    aria-hidden="true"
+                    id="mi-modal"
+                >
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button
+                                    type="button"
+                                    class="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                >
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                                <h4
+                                    class="modal-title"
+                                    id="myModalLabel"
+                                >
+                                    Deseja realmente excluir a postagem?
+                                </h4>
+                            </div>
+
+                            <div class="modal-footer">
+                                <p>
+                                    <a
+                                        class="btn btn-default cd-popup-no"
+                                        href="{% url 'index' %}"
+                                    >Cancelar</a>
+
+                                    <a
+                                        class="btn btn-default"
+                                        href="{% url 'excluir_postagem' postagem.id %}"
+                                    >Excluir</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h5>{{postagem.data_publicacao}}</h5>
+            </li>
+
+            {% endif %}
+                    {% endfor %}
+        </ul>
+
+        {% else %}
+
+        <div class="panel-body">
+            <strong>
+                {{ total }}
+                        Esse perfil ainda não publicou.
+            </strong>
+        </div>
+
+        {% endif %}
+    </div>
+
+    <div class="col-lg-3">
+        {% if posso_bloquear %}
+
+        <button class="btn btn-default btn-confirm">Bloquear Perfil</button>
+
+        <div
+            class="modal fade"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="mySmallModalLabel"
+            aria-hidden="true"
+            id="mi-modal"
+        >
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                        <h4
+                            class="modal-title"
+                            id="myModalLabel"
+                        >
+                            Deseja realmente apagar o perfil?
+                        </h4>
+                    </div>
+
+                    <div class="modal-footer">
+                        <p>
+                            <a
+                                class="btn btn-default cd-popup-no"
+                                href="{% url 'exibir' perfil.id %}"
+                            >Cancelar</a>
+
+                            <a
+                                class="btn btn-default"
+                                href="{% url 'bloquear' perfil.id %}"
+                            >Bloquear</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        {% if perfil_logado.superuser and not perfil.superuser %}
+
+        <a
+            class="btn btn-default"
+            href="{% url 'super' perfil.id %}"
+        >
+            Tornar este perfil como super usuário
+        </a>
+
+        {% endif %}
+                        
+        {% endif %}
+
+        {% if perfil_logado.id == perfil.id %}
+
+        <div
+            class="panel panel-default"
+            style="width:250px;"
+        >
+            {% with total=perfil_logado.meus_bloqueios.count %}
+                {% if total %}
+
+            <div class="panel-heading">
+                <strong>
+                    {{ total }}
+                        Contato{{ total|pluralize }} bloqueado{{ total|pluralize }}
+                </strong>
+            </div>
+
+            <div style="overflow-y: scroll; height: 200px;">
+                <ul class="list-group">
+                    {% for bloqueio in perfil_logado.meus_bloqueios.all %}
+
+                    <li class="list-group-item">
+                        <p>
+                            <a href="{% url 'exibir' bloqueio.bloqueado.id %}">{{ bloqueio }}</a>
+
+                            <a
+                                class="btn btn-default pull-right"
+                                href="{% url 'desbloquear' bloqueio.id %}"
+                            >desbloquear</a>
+                        </p>
+                    </li>
+
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% else %}
+
+            <div class="panel-body">Não há contatos bloqueados</div>
+
+            {% endif %}
+                {% endwith %}
+        </div>
+
+        {% endif %}
+    </div>
+
+    {% else %}
+
+        <h1>Usuário não existe</h1>
+
+    {% endif %}
+
+<script type="text/javascript">
+    var modalConfirm = function(callback){
+  
+  $(".btn-confirm").on("click", function(){
+    $("#mi-modal").modal('show');
+  });
+
+  $("#modal-btn-si").on("click", function(){
+    callback(true);
+    $("#mi-modal").modal('hide');
+  });
+  
+  $("#modal-btn-no").on("click", function(){
+    callback(false);
+    $("#mi-modal").modal('hide');
+  });
+};
+
+modalConfirm(function(confirm){
+  
+});
+</script>
+
+<!--TOAST-->
+<script type="text/javascript">
+    $().toastmessage('showSuccessToast', "Perfil convidado!.");
+</script>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="row">
+        <div class="col-lg-4">
+            <form name = "form" enctype = "multipart/form-data" action = "{% url 'meu_perfil' %}" method = "POST" >
+                {% csrf_token %}
+                <input type = "file" style = "margin-left:20%;" placeholder = "Picture" name = "foto_perfil"/>
+
+                <button class="btn btn- pull-right" type = "submit" value = "upload" >Upload</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

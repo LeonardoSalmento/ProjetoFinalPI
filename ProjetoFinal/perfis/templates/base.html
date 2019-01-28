@@ -1,0 +1,72 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="utf-8">
+	<title>ConnectedIn</title>
+	<link rel="stylesheet" href="{% static 'styles/bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'styles/main.css' %}">
+	<!-- <script
+			 src="https://code.jquery.com/jquery-3.3.1.min.js"
+			 integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			 crossorigin="anonymous"></script> -->
+
+	<script src="{% static 'scripts/vendor/jquery-1.9.1.js' %}"></script>
+	<script src="{% static 'scripts/vendor/bootstrap-min.js' %}"></script>
+	<script src="{% static 'scripts/vendor/bootbox.min.js' %}"></script>
+	<script src="{% static 'scripts/vendor/app.js' %}"></script>
+
+
+
+	<link rel="stylesheet" href="{{ STATIC_URL }}toastmessage/src/main/resources/css/jquery.toastmessage.css">
+
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="header">
+			{% if request.user.perfil %}
+
+			<ul class="nav nav-pills pull-right">
+				<li>
+				<div class="container">
+					<form class="form-signin" method="post" action="{% url 'pesquisar' %}">
+
+						{% csrf_token %}
+						<input name="nome" id="nome_id" required placeholder="   Pesquisar usuário" style="min-height: 33px; min-width: 300px;">
+						<button class="btn btn-primary" type="submit">Pesquisar</button>
+					</form>
+				</div>
+			</li>
+
+				<li><a href="{% url 'meu_perfil' %}">{{ perfil_logado.nome }}</a></li>
+				<li><a href="/logout/">Logout</a></li>
+			</ul>
+
+			<a href="{% url 'index' %}" style="text-decoration:none">
+
+				<h3 class="text-muted">ConnectedIn</h3>
+
+			</a>
+
+
+			{% else %}
+			<h3 class="text-muted">ConnectedIn</h3>
+
+			{% endif %}
+			
+		</div>
+
+		<div class="row content">
+
+			{% block body %}
+
+
+			{% endblock %}
+		</div>
+	</div>
+</body>
+
+</html>

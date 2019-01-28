@@ -1,0 +1,408 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Sugestões de amizade</strong>
+            </div>
+
+            {% if perfis %}
+            
+            <div style="overflow-y: scroll; height: 200px;">
+                <ul class="list-group">
+                    {% for perfil in perfis %}
+                    {% if perfil.nome != perfil_logado.nome and perfil not in perfil_logado.contatos.all and perfil not in perfil_logado.bloqueados %}
+
+                    <li class="list-group-item">
+                        <a href="{% url 'exibir' perfil.id %}">{{ perfil.nome }}</a>
+                    </li>
+
+                    {% endif %}
+                {% endfor %}
+                </ul>
+
+                {% else %}
+
+                <p>Não há perfis cadastrados</p>
+
+                {% endif %}
+            </div>
+        </div>
+
+        <div
+            class="panel panel-default"
+            style="overflow-y: scroll; height: 200px;"
+        >
+            {% with total=perfil_logado.contatos.count %}
+            {% if total %}
+
+            <div class="panel-heading">
+                <strong>
+                    {{ total }}
+                    Contato{{ total|pluralize }}
+                </strong>
+            </div>
+
+            <ul class="list-group">
+                <nav>
+                    {% for perfil in perfil_logado.contatos.all %}
+
+                    <li class="list-group-item">
+                        <p>
+                            <a href="{% url 'exibir' perfil.id %}">{{ perfil }}</a>
+                            <a class="btn btn-danger pull-right" href="{% url 'desfazer' perfil.id %}">desfazer amizade</a>
+                        </p>
+                    </li>
+                {% endfor %}
+                </nav>
+            </ul>
+
+            {% else %}
+
+            <div class="panel-body">Não há contatos :(</div>
+
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        {% if perfil_logado.superuser %}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Todos os perfis</strong>
+            </div>
+
+            {% if perfis %}
+
+            <div style="overflow-y: scroll; height: 200px;">
+                <ul class="list-group">
+                    {% for perfil in perfis %}
+                    {% if perfil.nome != perfil_logado.nome %}
+
+                    <li class="list-group-item">
+                        <a href="{% url 'exibir' perfil.id %}">{{ perfil.nome }}</a>
+                    </li>
+
+                    {% endif %}
+                {% endfor %}
+                </ul>
+
+                {% else %}
+
+                <p>Não há perfis cadastrados</p>
+
+                {% endif %}
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+
+    <div class="col-lg-6">
+        <br>
+
+        <form
+            class="form-signin"
+            method="post"
+            action="{% url 'postar' %}"
+        >
+            {% csrf_token %}
+
+            <p>
+                <input
+                    name="texto"
+                    id="id_postagem"
+                    required="required"
+                    placeholder="Compartilhe algo conosco...."
+                    style="min-width: 555px; min-height: 150px; max-width: 555px; max-height: 150px;"
+                >
+
+                <input type = "file" style = "margin-left:20%;"  placeholder = "Picture" name = "imagem_postagem" />
+            </p>
+
+            <button
+                class="btn btn-primary pull-right"
+                type="submit"
+            >Postar</button>
+
+            <br>
+        </form>
+
+        <br>
+        <br>
+
+        <div class="panel panel-default">
+            {% with total=timeline.count %}
+
+            {% if timeline %}
+
+            <div class="panel-heading">
+                <strong>
+                    {{ total }}
+                    Linha do Tempo
+                </strong>
+            </div>
+
+            <ul class="list-group">
+                {% for postagem in timeline %}
+
+                
+
+                <li class="list-group-item">
+                    <div class="row">
+                    <div class="col-lg-2">
+                    {% if postagem.dono.foto_perfil %}
+                        <img src="{{ postagem.dono.foto_perfil.url }}" style="width:65px; height:65px">
+
+                    {% else %}
+                        <img src="/static/img/photo.jpg" style="width:40px; height:50px">
+                    {% endif %}
+                    </div>
+
+                    <div class="col-lg-10">
+
+                        <h3>{{ postagem.dono }}</h3>
+                    </div>
+                </div>
+                    <p>{{ postagem }}</p>
+                    {% if postagem.imagem_postagem %}
+                        <img src="{{ postagem.imagem_postagem.url }}" style="width:130px; height:100px">
+                    {% endif %}
+
+                    {% if postagem.dono.id == perfil_logado.id %}
+
+                    <button class="btn btn-danger pull-right btn-confirm">Excluir</button>
+
+                    <div
+                        class="modal fade"
+                        tabindex="-1"
+                        role="dialog"
+                        aria-labelledby="mySmallModalLabel"
+                        aria-hidden="true"
+                        id="mi-modal"
+                    >
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button
+                                        type="button"
+                                        class="close"
+                                        data-dismiss="modal"
+                                        aria-label="Close"
+                                    >
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+
+                                    <h4
+                                        class="modal-title"
+                                        id="myModalLabel"
+                                    >
+                                        Deseja realmente excluir a postagem?
+                                    </h4>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <p>
+                                        <a
+                                            class="btn btn-default cd-popup-no"
+                                            href="{% url 'index' %}"
+                                        >Cancelar</a>
+
+                                        <a
+                                            class="btn btn-default"
+                                            href="{% url 'excluir_postagem' postagem.id %}"
+                                        >Excluir</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endif %}
+
+                    <h5>{{postagem.data_publicacao}}</h5>
+                </li>
+
+                {% endfor %}
+
+                
+            </ul>
+
+            {% else %}
+
+            <div class="panel-body">Não há postagens</div>
+
+            {% endif %}
+            {% endwith %}
+        </div>
+        <div class="content"  style="text-align:center;">
+            <div class="pagination">
+                {% if timeline.has_previous %}
+
+                    <li class="page-item">
+                        <span class="step-links">
+                            <a
+                                class="page-link"
+                                href="?page={{ timeline.previous_page_number }}"
+                            >Anterior</a>
+                        </span>
+                    </li>
+
+                    {% endif %}
+
+                {% for i in timeline.paginator.page_range %}
+
+                    {% if timeline.number == i %}
+                        <li class="page-item active">
+                            <a
+                                class="page-link"
+                                href="?page={{ timeline.i }}{{i}}"
+                            >{{ i }}</a>
+                        </li>
+
+                    {% else %}
+                        <li class="page-item">
+                            <a
+                                class="page-link"
+                                href="?page={{ timeline.i }}{{i}}"
+                            >{{ i }}</a>
+                        </li>
+
+                    {% endif %}
+                    {% endfor %}
+                
+                {% if timeline.has_next %}
+
+                    <li class="page-item">
+                        <a
+                            class="page-link"
+                            href="?page={{ timeline.next_page_number }}"
+                        >Próxima</a>
+                    </li>
+
+                    {% endif %}
+                </div>
+            </div>
+    </div>
+    
+
+    <div class="col-lg-3">
+        <aside>
+            <div
+                class="panel panel-default"
+                style="overflow-y: scroll; height: 200px;"
+            >
+                <div>
+                    {% with total=perfil_logado.convites_recebidos.count %}
+
+                    {% if total %}
+
+                    <div class="panel-heading">
+                        <strong>
+                            {{ total }}
+                            Convite{{ total|pluralize }} aguardando aprovação
+                        </strong>
+                    </div>
+
+                    <ul class="list-group">
+                        {% for convite in perfil_logado.convites_recebidos.all %}
+
+                        <li class="list-group-item">
+                            <p>
+                                <a href="{% url 'exibir' convite.solicitante.id %}">{{convite.solicitante.nome}}</a>
+
+                                <a
+                                    class="btn btn-danger pull-right"
+                                    href="{% url 'recusar' convite.id %}"
+                                >recusar</a>
+
+                                <a
+                                    class="btn btn-primary pull-right"
+                                    href="{% url 'aceitar' convite.id %}"
+                                >aceitar</a>
+                            </p>
+                        </li>
+
+                        {% endfor %}
+                    </ul>
+
+                    {% else %}
+
+                    <div class="panel-body">Não há convites</div>
+
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                {% with total=perfil_logado.convites_feitos.count %}
+
+                {% if total %}
+
+                <div class="panel-heading">
+                    <strong>
+                        {{ total }}
+                        Convite{{ total|pluralize }} enviado{{ total|pluralize }}
+                    </strong>
+                </div>
+
+                <div
+                    class="panel panel-default"
+                    style="overflow-y: scroll; height: 200px;"
+                >
+                    <ul class="list-group">
+                        {% for convite in perfil_logado.convites_feitos.all %}
+
+                        <li class="list-group-item">
+                            <p>
+                                <a href="{% url 'exibir' convite.convidado.id %}">{{convite.convidado.nome}}</a>
+
+                                <a
+                                    class="btn btn-danger pull-right"
+                                    href="{% url 'recusar' convite.id %}"
+                                >Cancelar</a>
+                            </p>
+                        </li>
+
+                        {% endfor %}
+                    </ul>
+
+                    {% else %}
+
+                    <div class="panel-body">Não há convites</div>
+
+                    {% endif %}
+                {% endwith %}
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var modalConfirm = function (callback) {
+
+        $(".btn-confirm").on("click", function () {
+            $("#mi-modal").modal('show');
+        });
+
+        $("#modal-btn-si").on("click", function () {
+            callback(true);
+            $("#mi-modal").modal('hide');
+        });
+
+        $("#modal-btn-no").on("click", function () {
+            callback(false);
+            $("#mi-modal").modal('hide');
+        });
+    };
+
+    modalConfirm(function (confirm) {
+
+    });
+</script>
+
+{% endblock %}
