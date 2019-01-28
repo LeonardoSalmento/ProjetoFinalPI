@@ -11,6 +11,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
 
 
+
+
 class LoginView(View):
 	template_name = 'login.html'
 

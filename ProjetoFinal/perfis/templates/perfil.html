@@ -34,9 +34,7 @@
                 Convidar
             </a>
             
-            <!--CHAMADA DO TOAST AQUI-->
-            <script src="{{ STATIC_URL }}/js/jquery.toastmessage.js"></script>
-
+          
             <br>
             {% endif %}
 
@@ -77,7 +75,20 @@
             {% for postagem in minhas_postagens %}
 
             <li class="list-group-item">
-                <h3>{{ postagem.dono }}</h3>
+                <div class="row">
+                    <div class="col-lg-2">
+                    {% if postagem.dono.foto_perfil %}
+                        <img src="{{ postagem.dono.foto_perfil.url }}" style="width:65px; height:65px">
+
+                    {% else %}
+                        <img src="/static/img/photo.jpg" style="width:40px; height:50px">
+                    {% endif %}
+                    </div>
+
+                    <div class="col-lg-10">
+                        <h3>{{ postagem.dono }}</h3>
+                    </div>
+                </div>
 
                 <p>{{ postagem }}</p>
 
@@ -201,7 +212,7 @@
     <div class="col-lg-3">
         {% if posso_bloquear %}
 
-        <button class="btn btn-default btn-confirm">Bloquear Perfil</button>
+        <button class="btn btn-default " id = btn-confirm>Bloquear Perfil</button>
 
         <div
             class="modal fade"
@@ -209,7 +220,7 @@
             role="dialog"
             aria-labelledby="mySmallModalLabel"
             aria-hidden="true"
-            id="mi-modal"
+            id="mi-modal2"
         >
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -337,9 +348,22 @@ modalConfirm(function(confirm){
 });
 </script>
 
-<!--TOAST-->
+
 <script type="text/javascript">
-    $().toastmessage('showSuccessToast', "Perfil convidado!.");
+    var modalConfirm2 = function(callback){
+  
+  $("#btn-confirm").on("click", function(){
+    $("#mi-modal2").modal('show');
+  });
+
+  
+};
+
+modalConfirm2(function(confirm){
+  
+});
 </script>
+
+
 
 {% endblock %}
