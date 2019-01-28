@@ -25,15 +25,15 @@
 
 			<ul class="nav nav-pills pull-right">
 				<li>
-				<div class="container">
-					<form class="form-signin" method="post" action="{% url 'pesquisar' %}">
+					<div class="container">
+						<form class="form-signin" method="post" action="{% url 'pesquisar' %}">
 
-						{% csrf_token %}
-						<input name="nome" id="nome_id" required placeholder="   Pesquisar usuário" style="min-height: 33px; min-width: 300px;">
-						<button class="btn btn-primary" type="submit">Pesquisar</button>
-					</form>
-				</div>
-			</li>
+							{% csrf_token %}
+							<input name="nome" id="nome_id" required placeholder="   Pesquisar usuário" style="min-height: 33px; min-width: 300px;">
+							<button class="btn btn-primary" type="submit">Pesquisar</button>
+						</form>
+					</div>
+				</li>
 
 				<li><a href="{% url 'meu_perfil' %}">{{ perfil_logado.nome }}</a></li>
 				<li><a href="/logout/">Logout</a></li>
