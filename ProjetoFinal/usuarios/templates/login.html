@@ -20,12 +20,13 @@
 				data-dismiss="alert" aria-hidden="true">x				
 			</button>
 			{{ form.non_field_errors }}
+			<p>Para reativar sua conta <a href="{% url 'ativar_conta' %}"> clique aqui.</a></p>
 		</div>		
 		{% endif %}
 
 		<a href="{% url 'registrar' %}">Registre-se</a>
 		<a class="pull-right" href="{% url 'password_reset' %}">Esqueci a senha</a>
-		<a class="pull-right" href="{% url 'ativar_conta' %}">Re-ativar conta</a>
+		
 	</form>
 
 {% endblock %}

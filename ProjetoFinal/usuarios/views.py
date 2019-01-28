@@ -11,8 +11,6 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
 
 
-
-
 class LoginView(View):
 	template_name = 'login.html'
 
@@ -22,8 +20,7 @@ class LoginView(View):
 	def post(self, request):
 		form = LoginForm (request.POST)
 		if form.is_valid():
-			print('i')
-		user = authenticate(username=request.POST['username'],
+			user = authenticate(username=request.POST['username'],
                            password=request.POST["password"])
 		
 		if user is not None:

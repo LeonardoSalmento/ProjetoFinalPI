@@ -57,9 +57,8 @@ class LoginForm(forms.Form):
 
 		lista_usuarios = User.objects.filter(username=self.cleaned_data['username'])
 		usuario = lista_usuarios[0]
-		print(usuario.perfil.justificativa)
 		if not usuario.is_active:
-			self.adiciona_erro('Conta desativada, pois: " ' + usuario.perfil.justificativa + '"')
+			self.adiciona_erro('Conta desativada, justificativa: " ' + usuario.perfil.justificativa + '"')
 			valid = False
 
 		return valid

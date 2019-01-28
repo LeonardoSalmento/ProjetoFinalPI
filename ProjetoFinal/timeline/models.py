@@ -8,7 +8,7 @@ class Timeline(models.Model):
 
     def get_timeline(self):
         lista_postagens = []
-        postagens_ordenadas = Postagem.objects.all()[::-1]
+        postagens_ordenadas = Postagem.objects.all()
 
         for i in postagens_ordenadas:
             if i.dono in self.perfil.contatos.all() or i.dono.id == self.perfil.id:

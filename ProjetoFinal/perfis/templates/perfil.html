@@ -67,14 +67,14 @@
     </div>
 
     <div class="col-lg-5">
-        {% if perfil.minhas_postagens.all %}
+        {% if minhas_postagens %}
 
         <div class="panel-heading">
             <strong>Postagens</strong>
         </div>
 
         <ul class="list-group">
-            {% for postagem in perfil.minhas_postagens.all %}
+            {% for postagem in minhas_postagens %}
 
             <li class="list-group-item">
                 <h3>{{ postagem.dono }}</h3>
@@ -147,6 +147,55 @@
         </div>
 
         {% endif %}
+
+        <div class="content"  style="text-align:center;">
+            <div class="pagination">
+                {% if minhas_postagens.has_previous %}
+
+                    <li class="page-item">
+                        <span class="step-links">
+                            <a
+                                class="page-link"
+                                href="?page={{ minhas_postagens.previous_page_number }}"
+                            >Anterior</a>
+                        </span>
+                    </li>
+
+                    {% endif %}
+
+                {% for i in minhas_postagens.paginator.page_range %}
+
+                    {% if minhas_postagens.number == i %}
+                        <li class="page-item active">
+                            <a
+                                class="page-link"
+                                href="?page={{ minhas_postagens.i }}{{i}}"
+                            >{{ i }}</a>
+                        </li>
+
+                    {% else %}
+                        <li class="page-item">
+                            <a
+                                class="page-link"
+                                href="?page={{ minhas_postagens.i }}{{i}}"
+                            >{{ i }}</a>
+                        </li>
+
+                    {% endif %}
+                    {% endfor %}
+                
+                {% if minhas_postagens.has_next %}
+
+                    <li class="page-item">
+                        <a
+                            class="page-link"
+                            href="?page={{ minhas_postagens.next_page_number }}"
+                        >Próxima</a>
+                    </li>
+
+                    {% endif %}
+                </div>
+            </div>
     </div>
 
     <div class="col-lg-3">

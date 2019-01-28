@@ -45,11 +45,21 @@ def exibir_perfil(request, perfil_id):
 	posso_bloquear = perfil_logado.pode_bloquear(perfil)
 	posso_exibir = perfil_logado.pode_exibir(perfil)
 
+	page = request.GET.get("page", 1)
+	paginator = Paginator(perfil.minhas_postagens.all(), 10)
+	total = paginator.count
+	
+	try:
+		minhas_postagens = paginator.page(page)
+	except InvalidPage:
+		minhas_postagens = paginator.page(1)
+
 	contexto = {'perfil' : perfil, 
 				'perfil_logado' : perfil_logado,
 				'posso_convidar': posso_convidar,
 				'posso_bloquear': posso_bloquear, 
 				'posso_exibir': posso_exibir,
+				'minhas_postagens': minhas_postagens,
 				'form': form
 				}
 
@@ -188,12 +198,22 @@ class PerfilView(View):
 		form = UploadFotoPerfilForm()
 		perfil_logado = get_perfil_logado(request)
 
+		page = request.GET.get("page", 1)
+		paginator = Paginator(perfil_logado.minhas_postagens.all(), 10)
+		total = paginator.count
+
+		try:
+			minhas_postagens = paginator.page(page)
+		except InvalidPage:
+			minhas_postagens = paginator.page(1)
+
 		contexto = {'perfil' : perfil_logado, 
 					'perfil_logado' : perfil_logado,
 					'posso_convidar': False,
 					'posso_bloquear': False, 
 					'posso_exibir': True,
-					'form': form
+					'form': form,
+					'minhas_postagens': minhas_postagens
 					}
 
 		return render(request, 'perfil.html', contexto)
@@ -214,13 +234,23 @@ class PerfilView(View):
 
 		form = UploadFotoPerfilForm()
 
+		page = request.GET.get("page", 1)
+		paginator = Paginator(perfil_logado.minhas_postagens.all(), 10)
+		total = paginator.count
+		
+		try:
+			minhas_postagens = paginator.page(page)
+		except InvalidPage:
+			minhas_postagens = paginator.page(1)
+
 
 		contexto = {'perfil' : perfil_logado, 
 					'perfil_logado' : perfil_logado,
 					'posso_convidar': False,
 					'posso_bloquear': False, 
 					'posso_exibir': True,
-					'form': form
+					'form': form,
+					'minhas_postagens': minhas_postagens
 					}
 
 		return render(request, 'perfil.html', contexto)

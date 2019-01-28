@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db import transaction
+
 
 # Create your models here.
 
@@ -112,7 +114,7 @@ class Perfil(models.Model):
         return True
             
 
-
+    @transaction.atomic
     def bloquear_contatos(self, perfil_id):
         perfil = Perfil.objects.get(id=perfil_id)
         bloqueio = Bloqueio()
@@ -124,12 +126,13 @@ class Perfil(models.Model):
 class Convite(models.Model):
     solicitante = models.ForeignKey(Perfil,on_delete=models.CASCADE,related_name='convites_feitos' )
     convidado = models.ForeignKey(Perfil, on_delete= models.CASCADE, related_name='convites_recebidos')
-
+    
+    @transaction.atomic
     def aceitar(self):        
         self.solicitante.contatos.add(self.convidado)
         self.convidado.contatos.add(self.solicitante)
         self.delete()
-
+    
     def recusar(self):
         self.delete()
 
@@ -140,6 +143,9 @@ class Postagem(models.Model):
     texto = models.CharField(max_length=400, null=False)
     imagem_postagem = models.ImageField(upload_to='imagens_postagens', null=True, blank = True)
     data_publicacao = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-data_publicacao']
 
     def __str__(self):
         return self.texto
