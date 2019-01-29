@@ -264,7 +264,7 @@ class PostarView(View):
 			print(dados_form)
 			postagem = Postagem()
 			postagem.dono = get_perfil_logado(request)
-			postagem.imagem_postagem = dados_form['foto_perfil']
+			postagem.imagem_postagem = dados_form['imagem_postagem']
 			postagem.texto = dados_form['texto']
 			postagem.save()
 			return redirect('index')

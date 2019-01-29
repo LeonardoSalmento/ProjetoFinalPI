@@ -5,7 +5,7 @@ from django import forms
 
 class PostForm(forms.Form):
 	texto = forms.CharField(required=True)
-	foto_perfil = forms.FileField(required=False)
+	imagem_postagem = forms.FileField(required=False)
 
 class UploadFotoPerfilForm(forms.Form):
 	foto_perfil = forms.FileField(required=False)

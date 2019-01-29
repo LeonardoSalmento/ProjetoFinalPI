@@ -107,14 +107,9 @@
     <div class="col-lg-6">
         <br>
 
-        <form
-            class="form-signin"
-            method="post"
-            action="{% url 'postar' %}"
-        >
-            {% csrf_token %}
-
-            <p>
+        <form name = "form" enctype = "multipart/form-data" action="{% url 'postar' %}" method = "POST" >
+                {% csrf_token %}
+                
                 <input
                     name="texto"
                     id="id_postagem"
@@ -122,17 +117,11 @@
                     placeholder="Compartilhe algo conosco...."
                     style="min-width: 555px; min-height: 150px; max-width: 555px; max-height: 150px;"
                 >
+                <input type = "file" style = "margin-left:20%;" placeholder = "Picture" name = "imagem_postagem"/>
 
-                <input type = "file" style = "margin-left:20%;"  placeholder = "Picture" name = "imagem_postagem" />
-            </p>
+                <button class="btn btn-primary pull-right" type = "submit" value = "upload" >Postar</button>
+            </form>
 
-            <button
-                class="btn btn-primary pull-right"
-                type="submit"
-            >Postar</button>
-
-            <br>
-        </form>
 
         <br>
         <br>
