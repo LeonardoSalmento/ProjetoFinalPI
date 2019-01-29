@@ -42,6 +42,7 @@ urlpatterns = [
     path('perfil/alterar_foto', views.alterar_foto_perfil, name='alterar_foto_perfil'),
     path('login/', LoginView.as_view(), name="login"),
     path('logout/', v.LogoutView.as_view(template_name = 'login.html'), name="logout"),
+    path('perfil/transacao', views.transacao, name='transacao'),
     path('perfil/<int:perfil_id>/super', views.setarSuperUsuario, name='super'),
     path('perfil/<int:perfil_id>/bloquear', views.bloquear, name='bloquear'),
     path('perfil/<int:bloqueio_id>/desbloquear', views.desbloquear, name='desbloquear'),

@@ -27,6 +27,12 @@
             Nome da empresa: <strong>{{ perfil.nome_empresa }}</strong>
         </address>
 
+            {% if perfil.id == perfil_logado.id %}
+            <a class="btn btn-default" href="{% url 'transacao' %}">
+                Testar transações atômicas
+            </a>
+            {% endif %}
+
 
             {% if posso_convidar %}
 
