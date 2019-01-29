@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.base import View
 from django.core.paginator import Paginator, InvalidPage
 from django.db import transaction
-
+from django.contrib import messages
 
 # Create your views here.
 
@@ -34,6 +34,7 @@ def index(request):
 		}
 		
 	return render(request, 'index.html', contexto)
+
 
 @transaction.atomic
 @login_required
@@ -75,6 +76,8 @@ def convidar(request,perfil_id):
 	
 	if(perfil_logado.pode_convidar(perfil_a_convidar)):
 		perfil_logado.convidar(perfil_a_convidar)
+
+	messages.success(request, 'Convite enviado!')
 	
 	return  redirect('index')
 
@@ -83,7 +86,7 @@ def convidar(request,perfil_id):
 def desfazer(request,perfil_id):
 	perfil_logado = get_perfil_logado(request)	
 	perfil_logado.desfazer_amizade(perfil_id)
-
+	messages.warning(request, 'Amizade desfeita!')
 	return  redirect('index')
 
 
@@ -94,8 +97,10 @@ def get_perfil_logado(request):
 
 @login_required
 def aceitar(request, convite_id):
+
 	convite = Convite.objects.get(id = convite_id)
 	convite.aceitar()
+	messages.success(request, 'Parabéns, você fez uma nova amizade!')
 	return redirect('index')
 
 
@@ -103,6 +108,8 @@ def aceitar(request, convite_id):
 def recusar(request, convite_id):
 	convite = Convite.objects.get(id = convite_id)
 	convite.recusar()
+	messages.warning(request, 'Convite recusado')
+
 	return redirect('index')
 
 
@@ -111,6 +118,7 @@ def redefinir_senha(request):
 	perfil_logado = get_perfil_logado(request)
 	perfil_logado.redefinir_senha()
 
+
 @transaction.atomic
 @login_required
 def setarSuperUsuario(request, perfil_id):
@@ -118,7 +126,7 @@ def setarSuperUsuario(request, perfil_id):
 	perfil.usuario.is_superuser = True
 	perfil.usuario.save()
 	perfil.save()
-	
+	messages.success(request, 'Perfil atualizado como super usuário!')
 	return redirect('index')
 
 
@@ -126,6 +134,7 @@ def setarSuperUsuario(request, perfil_id):
 def bloquear(request, perfil_id):
 	perfil_logado = get_perfil_logado(request)
 	perfil_logado.bloquear_contatos(perfil_id)
+	messages.warning(request, 'Perfil bloqueado')
 	return redirect('index')
 
 
@@ -133,6 +142,7 @@ def bloquear(request, perfil_id):
 def desbloquear(request, bloqueio_id):
 	bloqueio = Bloqueio.objects.get(id = bloqueio_id)
 	bloqueio.desbloquear()
+	messages.success(request, 'Perfil desbloqueado!')
 	return redirect('index')
 
 
@@ -140,7 +150,7 @@ def desbloquear(request, bloqueio_id):
 def deletar_postagem(request, postagem_id):
 	postagem = Postagem.objects.get(id=postagem_id)
 	postagem.excluir_postagem()
-
+	messages.warning(request, 'Post deletado')
 	return redirect('index')
 
 
@@ -151,6 +161,7 @@ def alterar_foto_perfil(request):
 
 @login_required
 def desativar_conta(request):
+	messages.warning(request, 'Conta desativada')
 	return render(request, 'desativar_conta.html', {'perfil_logado': get_perfil_logado(request)} )
 
 
@@ -227,6 +238,7 @@ class DesativarContaView(View):
 
 		return redirect('index')
 
+
 class PerfilView(View):
 	
 	def get(self, request):
@@ -289,6 +301,7 @@ class PerfilView(View):
 					}
 
 		return render(request, 'perfil.html', contexto)
+
 
 class PostarView(View):
 	@transaction.atomic

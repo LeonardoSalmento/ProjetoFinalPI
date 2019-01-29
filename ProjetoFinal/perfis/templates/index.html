@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 {% block body %}
 
-
+{% if messages %}
+    {% for message in messages %}
+        <p {% if message.tags == "success" %} class ="alert alert-sucess" {% endif %}</p>
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+{% endif %}
 
 <div class="row">
     <div class="col-lg-3">
