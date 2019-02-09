@@ -3,8 +3,8 @@
 
 {% if messages %}
     {% for message in messages %}
-        <p {% if message.tags == "success" %} class ="alert alert-sucess" {% endif %}</p>
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        <p {% if message.tags == "success" %} class ="alert alert-sucess" {% endif %}> </p>
+        <li{% if message.tags == "warning" %} class="{{ message.tags }} alert alert-warning"{% endif %}>{{ message }}</li>
     {% endfor %}
 {% endif %}
 
@@ -120,7 +120,7 @@
                     id="id_postagem"
                     required="required"
                     placeholder="Compartilhe algo conosco...."
-                    style="min-width: 555px; min-height: 150px; max-width: 555px; max-height: 150px;"
+                    style="min-width: 485px; min-height: 150px; max-width: 555px; max-height: 150px;"
                 >
                 <input type = "file" style = "margin-left:20%;" placeholder = "Picture" name = "imagem_postagem"/>
 

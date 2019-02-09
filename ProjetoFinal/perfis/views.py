@@ -161,45 +161,8 @@ def alterar_foto_perfil(request):
 
 @login_required
 def desativar_conta(request):
-	messages.warning(request, 'Conta desativada')
 	return render(request, 'desativar_conta.html', {'perfil_logado': get_perfil_logado(request)} )
-
-
-@transaction.atomic
-def transacao(request):
-	form = UploadFotoPerfilForm()
-	perfil_logado = get_perfil_logado(request)
-
-	perfil_logado.nome = 'jose'
-	perfil_logado.save()
-
-	perfil_logado = 'a'
-
-	perfil_logado.nome = 'maria'
-	perfil_logado.save()
-
-	page = request.GET.get("page", 1)
-	paginator = Paginator(perfil_logado.minhas_postagens.all(), 10)
-	total = paginator.count
 	
-	try:
-		minhas_postagens = paginator.page(page)
-	except InvalidPage:
-		minhas_postagens = paginator.page(1)
-
-	contexto = {'perfil' : perfil_logado, 
-				'perfil_logado' : perfil_logado,
-				'posso_convidar': False,
-				'posso_bloquear': False, 
-				'posso_exibir': True,
-				'minhas_postagens': minhas_postagens,
-				'form': form
-				}
-
-	return render(request, 'perfil.html', contexto)
-	
-	
-	return
 
 def ativar_conta(request):
 	form = AtivarContaForm()
@@ -207,7 +170,6 @@ def ativar_conta(request):
 
 
 class AtivarContaView(View):
-	@transaction.atomic
 	def post(self, request):
 		form = AtivarContaForm(request.POST)
 		if form.is_valid():
@@ -215,6 +177,8 @@ class AtivarContaView(View):
 			perfil = Perfil.objects.get(nome=dados_form['nome'])
 			perfil.usuario.is_active = True
 			perfil.usuario.save()
+			messages.success(request, 'Conta reativada')
+
 			
 			return redirect('index')
 

@@ -27,12 +27,6 @@
             Nome da empresa: <strong>{{ perfil.nome_empresa }}</strong>
         </address>
 
-            {% if perfil.id == perfil_logado.id %}
-            <a class="btn btn-default" href="{% url 'transacao' %}">
-                Testar transações atômicas
-            </a>
-            {% endif %}
-
 
             {% if posso_convidar %}
 
@@ -97,6 +91,9 @@
                 </div>
 
                 <p>{{ postagem }}</p>
+                {% if postagem.imagem_postagem %}
+                <img src="{{ postagem.imagem_postagem.url }}" style="width:200px; height:150px">
+                {% endif %}
 
                 {% if postagem.dono.id == perfil_logado.id or perfil_logado.superuser %}
 

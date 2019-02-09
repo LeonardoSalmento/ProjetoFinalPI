@@ -14,15 +14,19 @@
 
 		<input type="hidden" name="next" value="{{ next }}">
 
-		{% if form.errors %}
-			<div class="alert alert-danger">
-				<button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button>
-				Por favor, verifique o Email e/ou Senha informados
-			</div>
+		{% if form.errors %}		
+		<div class="alert alert-danger">
+			<button type="button" class="close"
+				data-dismiss="alert" aria-hidden="true">x				
+			</button>
+			{{ form.non_field_errors }}
+			<p>Para reativar sua conta <a href="{% url 'ativar_conta' %}"> clique aqui.</a></p>
+		</div>		
 		{% endif %}
 
-		<a href="{% url 'registrar' %}">registre-se</a>
-		<a href="{% url 'password_reset' %}">esqueci a senha</a>
+		<a href="{% url 'registrar' %}">Registre-se</a>
+		<a class="pull-right" href="{% url 'password_reset' %}">Esqueci a senha</a>
+		
 	</form>
 
 {% endblock %}

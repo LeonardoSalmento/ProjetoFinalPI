@@ -11,14 +11,12 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.db import transaction
 
 
-
-
 class LoginView(View):
 	template_name = 'login.html'
 
 	def get(self, request):
 		return render (request, self.template_name)
-	@transaction.atomic
+
 	def post(self, request):
 		form = LoginForm (request.POST)
 		if form.is_valid():
@@ -57,7 +55,6 @@ class RedefinirSenhaView(View):
 	def get(self, request):
 		form = RedefinirSenhaForm()
 		return render(request, self.template_name, {'form': form})
-	@transaction.atomic
 	def post(self, request):
 		form = RedefinirSenhaForm(request.POST)
 		usuario_logado = User.objects.get(id=request.user.id)
