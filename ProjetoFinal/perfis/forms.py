@@ -7,6 +7,11 @@ class PostForm(forms.Form):
 	texto = forms.CharField(required=True)
 	imagem_postagem = forms.FileField(required=False)
 
+
+class ComentarioForm(forms.Form):
+	texto = forms.CharField(required=True)
+
+
 class UploadFotoPerfilForm(forms.Form):
 	foto_perfil = forms.FileField(required=False)
 

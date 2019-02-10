@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-10 01:49-0300\n"
-"PO-Revision-Date: 2019-02-10 01:49-0300\n"
+"PO-Revision-Date: 2019-02-10 11:45-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -64,7 +64,7 @@ msgstr "Delete"
 
 #: .\perfis\templates\index.html:16
 msgid "Sugestões de amizade"
-msgstr "Unmade Friendship"
+msgstr "Friendship suggestion"
 
 #: .\perfis\templates\index.html:38 .\perfis\templates\index.html:104
 msgid "Não há perfis cadastrados"

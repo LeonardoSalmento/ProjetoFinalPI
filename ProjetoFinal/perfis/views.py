@@ -153,7 +153,13 @@ def deletar_postagem(request, postagem_id):
 	return redirect('index')
 
 
-	
+def comentar_postagem(request, post_id):
+		form = ComentarioForm()
+		post = Postagem.objects.get(id = post_id)
+		perfil_logado = get_perfil_logado(request)
+		return render(request, 'comentar_postagem.html', {'post': post, 'perfil_logado': perfil_logado, 'form':form})
+
+
 @login_required
 def curtir(request, post_id):
 	post = Postagem.objects.get(id = post_id)
@@ -310,4 +316,17 @@ class PesquisarPerfilView(View):
 			
 			return render(request, 'pesquisa.html', {'perfis': perfis_acessiveis, 'perfil_logado':get_perfil_logado(request)})
 
+		return redirect('index')
+
+class ComentarioView(View):
+	def post(self, request, post_id):
+		form = ComentarioForm(request.POST)
+		if form.is_valid():
+			dados_form = form.cleaned_data
+			post = Postagem.objects.get(id = post_id)
+			comentario = Comentario()
+			comentario.post = post
+			comentario.texto = dados_form['texto']
+			comentario.autor = get_perfil_logado(request)
+			comentario.save()
 		return redirect('index')

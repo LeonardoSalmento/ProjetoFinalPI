@@ -120,7 +120,7 @@
                     name="texto"
                     id="id_postagem"
                     required="required"
-                    placeholder={% trans "Compartilhe algo conosco...." %}
+                    placeholder={% trans " Compartilhe algo conosco.... " %}
                     style="min-width: 485px; min-height: 150px; max-width: 555px; max-height: 150px;"
                 >
                 <input type = "file" style = "margin-left:20%;" placeholder = "Picture" name = "imagem_postagem"/>
@@ -165,15 +165,10 @@
                     <div style="text-align:center;">
                     <p>{{ postagem }}</p>
                     {% if postagem.imagem_postagem %}
-                        <img src="{{ postagem.imagem_postagem.url }}" style="width:200px; height:150px">
+                        <img src="{{ postagem.imagem_postagem.url }}" style="width:300px; height:210px">
                     {% endif %}
                     </div>
                     <br>
-
-
-
-
-
 
                     {% if perfil_logado.id not in postagem.curtidas %}
                         <a href="{% url 'curtir' postagem.id %}">like</a>
@@ -186,15 +181,20 @@
 
 
 
+                    <div style="text-align:center;">
+                        {% if postagem.meus_comentarios.all %}
+
+                        <h5><a href="{% url 'comentar_postagem' postagem.id %}">Comentários... </a></h5>    
+                        {% else %}
+
+                        <h5> Ainda não há comentários, seja o primeiro a <a href="{% url 'comentar_postagem' postagem.id %}">comentar</a></h5>
+                        {% endif %}
+                    </div>     
 
 
 
 
 
-
-
-
-                        
 
                     {% if postagem.dono.id == perfil_logado.id %}
 

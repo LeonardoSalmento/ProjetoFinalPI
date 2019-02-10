@@ -171,6 +171,17 @@ class Postagem(models.Model):
         return 0
 
 
+class Comentario(models.Model):
+    texto = models.CharField(max_length=400, null=False)
+    autor = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='meus_comentarios')
+    post = models.ForeignKey(Postagem, on_delete=models.CASCADE, related_name='meus_comentarios')
+
+    def __str__(self):
+        return self.texto
+
+    def apagar(self):
+        self.delete()
+
 class Curtida(models.Model):
     post = models.ForeignKey(Postagem, on_delete = models.CASCADE, related_name = 'minhas_curtidas')
     curtidor = models.ForeignKey(Perfil, on_delete = models.CASCADE, related_name = 'curti')

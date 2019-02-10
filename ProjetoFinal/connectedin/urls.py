@@ -42,6 +42,8 @@ urlpatterns = [
     path('perfil/alterar_foto', views.alterar_foto_perfil, name='alterar_foto_perfil'),
     path('postagem/<int:post_id>/curtir', views.curtir, name='curtir'),
     path('postagem/<int:post_id>/descurtir', views.descurtir, name='descurtir'),
+    path('comentar_postagem/<int:post_id>', views.comentar_postagem, name='comentar_postagem'),
+    path('comentar/<int:post_id>', views.ComentarioView.as_view(), name='comentar'),
     path('login/', v.LoginView.as_view(), name="login"),
     path('logout/', v.LogoutView.as_view(template_name = 'login.html'), name="logout"),
     path('perfil/<int:perfil_id>/super', views.setarSuperUsuario, name='super'),

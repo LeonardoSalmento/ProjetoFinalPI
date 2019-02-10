@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block body %}
+	<div class = "row">
+        <div class="col-lg-1">
+        {% if post.dono.foto_perfil %}
+            <img src="{{ post.dono.foto_perfil.url }}" style="width:65px; height:65px">
+
+        {% else %}
+            <img src="/static/img/photo.jpg" style="width:40px; height:50px">
+        {% endif %}
+        </div>
+
+        <div class="col-lg-11">
+            <h3>{{ post.dono }}</h3>
+        </div>
+    </div>
+
+<hr>
+<div class = "row">
+    <div class = "col-lg-6" style="text-align:center;">
+        <h5><p>{{ post }}</p></h5>
+    </div>    
+    
+    <div class = "col-lg-6" style="text-align:center;">
+        {% if post.imagem_postagem %}
+            <img src="{{ post.imagem_postagem.url }}" style="width:300px; height:250px">
+        {% endif %}
+    </div>
+</div>
+
+<br>
+
+  
+	<form action="{% url 'comentar' post.id %}" class="form-signin" role="form" method="post">
+		{% csrf_token %}
+    <hr>
+        <div class="row">
+            <div class="col-lg-9">
+                <input type="text-area" style="height:47px;" class="form-control" id="id_username" name="texto" placeholder="Comente..." required autofocus>
+            </div>
+            <div class="col-lg-3">
+                <button class="btn btn-lg btn-primary" type="submit">{% trans "Comentar" %}</button>
+            </div>
+            
+    <br>
+
+		<input type="hidden" name="next" value="{{ next }}">
+
+		{% if form.errors %}
+			<div class="alert alert-danger">
+				<button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button>
+				{% trans "Usuário ou senha não combinam" %}
+			</div>
+		{% endif %}		
+	</form>
+    <br>
+
+   <hr>
+
+    <div class="panel panel-default" >
+        {% if post.meus_comentarios %}
+            {% for comentario in post.meus_comentarios.all %}
+                <li class="list-group-item">
+                    <div class="row">
+                    <div class="col-lg-1">
+                    {% if comentario.autor.foto_perfil %}
+                        <img src="{{ comentario.autor.foto_perfil.url }}" style="width:65px; height:65px">
+
+                    {% else %}
+                        <img src="/static/img/photo.jpg" style="width:40px; height:50px">
+                    {% endif %}
+                    </div>
+            
+                    <div class="col-lg-11">
+                    
+                        <h3>{{ comentario.autor }}</h3>
+                         <p>{{ comentario }}</p>
+                    </div>
+                </div>
+                    
+                   
+                    
+
+            {% endfor %}
+        {% endif %}
+    </div> 
+</div>
+
+{% endblock %}
