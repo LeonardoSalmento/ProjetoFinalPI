@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block body %}
     <div class="row">
         <div class="col-lg-4">
@@ -6,7 +7,7 @@
                 {% csrf_token %}
                 <input type = "file" style = "margin-left:20%;" placeholder = "Picture" name = "foto_perfil"/>
 
-                <button class="btn btn- pull-right" type = "submit" value = "upload" >Upload</button>
+                <button class="btn btn- pull-right" type = "submit" value = "upload" >{% trans 'Upload' %}</button>
             </form>
         </div>
     </div>

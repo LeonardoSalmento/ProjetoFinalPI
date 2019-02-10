@@ -1,16 +1,16 @@
 {% extends "base_usuario.html" %}
-
+{% load i18n %}
 {% block body %}
 	
 	<form action="{% url 'login' %}" class="form-signin" role="form" method="post">
 		{% csrf_token %}
-		<h2 class="form-signin-heading">Login</h2>
+		<h2 class="form-signin-heading">{% trans 'Login' %}</h2>
 
 		<input type="text" class="form-control" id="id_username" name="username" placeholder="Nome" required autofocus>
 
 		<input type="password" class="form-control" id="id_password" name="password" placeholder="Senha" required>
 
-		<button class="btn btn-lg btn-primary btn-block" type="submit" value="Login">Login</button>
+		<button class="btn btn-lg btn-primary btn-block" type="submit" value="Login">{% trans 'Login' %}</button>
 
 		<input type="hidden" name="next" value="{{ next }}">
 
@@ -20,12 +20,12 @@
 				data-dismiss="alert" aria-hidden="true">x				
 			</button>
 			{{ form.non_field_errors }}
-			<p>Para reativar sua conta <a href="{% url 'ativar_conta' %}"> clique aqui.</a></p>
+			<p>{% trans 'Para reativar sua conta' %} <a href="{% url 'ativar_conta' %}">{% trans 'clique aqui.' %} </a></p>
 		</div>		
 		{% endif %}
 
-		<a href="{% url 'registrar' %}">Registre-se</a>
-		<a class="pull-right" href="{% url 'password_reset' %}">Esqueci a senha</a>
+		<a href="{% url 'registrar' %}">{% trans 'Registre-se' %}</a>
+		<a class="pull-right" href="{% url 'password_reset' %}">{% trans 'Esqueci a senha' %}</a>
 		
 	</form>
 

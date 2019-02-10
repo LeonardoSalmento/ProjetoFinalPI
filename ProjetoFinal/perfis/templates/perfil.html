@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% include "toastmessages_fragment.html" %}
 {% block body %}
 
 	{% if not perfil.usuario.is_active %}
 
-        <h1>Perfil desativado :(</h1>	
+        <h1>{% trans 'Perfil desativado :(' %}</h1>	
 	
     
     {% elif posso_exibir %}
@@ -24,14 +25,14 @@
         <address>			
             Email: <a href = "mailto:{{ perfil.email }}">{{ perfil.email }}</a>
             <br>
-            Nome da empresa: <strong>{{ perfil.nome_empresa }}</strong>
+            {% blocktrans %} Nome da empresa: <strong>{{ perfil.nome_empresa }} {% endblocktrans %}</strong>
         </address>
 
 
             {% if posso_convidar %}
 
             <a class="btn btn-default" href="{% url 'convidar' perfil.id %}">
-                Convidar
+                {% trans 'Convidar' %}
             </a>
             
           
@@ -46,19 +47,19 @@
             <a
                 class="btn btn-default"
                 href="{% url 'form_redefinir_senha' %}"
-            >Redefinir senha</a>
+            >{% trans 'Redefinir senha' %}</a>
             <br>
 
             <a
                 class="btn btn-default"
                 href="{% url 'alterar_foto_perfil' %}"
-            >Alterar foto do perfil</a>
+            >{% trans 'Alterar foto do perfil' %}</a>
 
             <br>
             <a
                 class="btn btn-default"
                 href="{% url 'desativar_conta' %}"
-            >Desativar conta</a>
+            >{% trans 'Desativar conta' %}</a>
 
             {% endif %}
         </div>
@@ -68,7 +69,7 @@
         {% if minhas_postagens %}
 
         <div class="panel-heading">
-            <strong>Postagens</strong>
+            <strong>{% trans 'Postagens' %}</strong>
         </div>
 
         <ul class="list-group">
@@ -97,7 +98,7 @@
 
                 {% if postagem.dono.id == perfil_logado.id or perfil_logado.superuser %}
 
-                <button class="btn btn-danger pull-right btn-confirm">Excluir</button>
+                <button class="btn btn-danger pull-right btn-confirm">{% trans 'Excluir' %}</button>
 
                 <div
                     class="modal fade"
@@ -123,7 +124,7 @@
                                     class="modal-title"
                                     id="myModalLabel"
                                 >
-                                    Deseja realmente excluir a postagem?
+                                   {% trans 'Deseja realmente excluir a postagem?' %} 
                                 </h4>
                             </div>
 
@@ -132,12 +133,12 @@
                                     <a
                                         class="btn btn-default cd-popup-no"
                                         href="{% url 'index' %}"
-                                    >Cancelar</a>
+                                    >{% trans 'Cancelar' %}</a>
 
                                     <a
                                         class="btn btn-default"
                                         href="{% url 'excluir_postagem' postagem.id %}"
-                                    >Excluir</a>
+                                    >{% trans 'Excluir' %}</a>
                                 </p>
                             </div>
                         </div>
@@ -156,7 +157,7 @@
         <div class="panel-body">
             <strong>
                 {{ total }}
-                        Esse perfil ainda não publicou.
+                        {% trans 'Esse perfil ainda não publicou.' %}
             </strong>
         </div>
 
@@ -171,7 +172,7 @@
                             <a
                                 class="page-link"
                                 href="?page={{ minhas_postagens.previous_page_number }}"
-                            >Anterior</a>
+                            >{% trans 'Anterior' %}</a>
                         </span>
                     </li>
 
@@ -204,7 +205,7 @@
                         <a
                             class="page-link"
                             href="?page={{ minhas_postagens.next_page_number }}"
-                        >Próxima</a>
+                        >{% trans 'Próxima' %}</a>
                     </li>
 
                     {% endif %}
@@ -215,7 +216,7 @@
     <div class="col-lg-3">
         {% if posso_bloquear %}
 
-        <button class="btn btn-default " id = btn-confirm>Bloquear Perfil</button>
+        <button class="btn btn-default " id = btn-confirm>{% trans 'Bloquear Perfil' %}</button>
 
         <div
             class="modal fade"
@@ -241,7 +242,7 @@
                             class="modal-title"
                             id="myModalLabel"
                         >
-                            Deseja realmente bloquear o perfil?
+                            {% trans 'Deseja realmente bloquear o perfil?' %}
                         </h4>
                     </div>
 
@@ -250,12 +251,12 @@
                             <a
                                 class="btn btn-default cd-popup-no"
                                 href="{% url 'exibir' perfil.id %}"
-                            >Cancelar</a>
+                            >{% trans 'Cancelar' %}</a>
 
                             <a
                                 class="btn btn-default"
                                 href="{% url 'bloquear' perfil.id %}"
-                            >Bloquear</a>
+                            >{% trans 'Bloquear' %}</a>
                         </p>
                     </div>
                 </div>
@@ -269,7 +270,7 @@
             class="btn btn-default"
             href="{% url 'super' perfil.id %}"
         >
-            Tornar este perfil como super usuário
+            {% trans 'Tornar este perfil como super usuário' %}
         </a>
 
         {% endif %}
@@ -287,8 +288,8 @@
 
             <div class="panel-heading">
                 <strong>
-                    {{ total }}
-                        Contato{{ total|pluralize }} bloqueado{{ total|pluralize }}
+                    {% blocktrans %}{{ total }}
+                         Contato{{ total|pluralize }} bloqueado{{ total|pluralize }}{% endblocktrans %}
                 </strong>
             </div>
 
@@ -303,7 +304,7 @@
                             <a
                                 class="btn btn-default pull-right"
                                 href="{% url 'desbloquear' bloqueio.id %}"
-                            >desbloquear</a>
+                            >{% trans 'desbloquear' %}</a>
                         </p>
                     </li>
 
@@ -313,7 +314,7 @@
 
             {% else %}
 
-            <div class="panel-body">Não há contatos bloqueados</div>
+            <div class="panel-body">{% trans 'Não há contatos bloqueados' %}</div>
 
             {% endif %}
                 {% endwith %}
@@ -324,7 +325,7 @@
 
     {% else %}
 
-        <h1>Usuário não existe</h1>
+        <h1>{% trans 'Usuário não existe' %}</h1>
 
     {% endif %}
 

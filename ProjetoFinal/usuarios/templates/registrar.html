@@ -1,11 +1,11 @@
 {% extends "base_usuario.html" %}
-
+{% load i18n %}
 {% block body %}
 <form class = "form-signin"  method="post" 
 	action="{% url 'registrar' %}">
 	{% csrf_token %}
 
-	<h2 class="form-signin-heading">Crie seu usuário</h2>
+	<h2 class="form-signin-heading">{% trans 'Crie seu usuário' %}</h2>
 	<input 	name="email" id = "id_email" class = "form-control"
 			placeholder="E-mail *" required autofocus>
 
@@ -25,7 +25,7 @@
 	<hr/>			
 
 	<button class="btn btn-lg btn-primary btn-block"
-			type = "submit" value="Login">Registrar</button>
+			type = "submit" value="Login">{% trans 'Registrar' %}</button>
 
 	{% if form.errors %}		
 	<div class="alert alert-danger">

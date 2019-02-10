@@ -7,10 +7,11 @@ from django.views.generic.base import View
 from django.core.paginator import Paginator, InvalidPage
 from django.db import transaction
 from django.contrib import messages
+from django.utils.translation import gettext as _
+
 
 # Create your views here.
 
-@transaction.atomic
 @login_required
 def index(request):
 	form = PostForm()
@@ -36,7 +37,6 @@ def index(request):
 	return render(request, 'index.html', contexto)
 
 
-@transaction.atomic
 @login_required
 def exibir_perfil(request, perfil_id):
 	form = UploadFotoPerfilForm()
@@ -77,7 +77,7 @@ def convidar(request,perfil_id):
 	if(perfil_logado.pode_convidar(perfil_a_convidar)):
 		perfil_logado.convidar(perfil_a_convidar)
 
-	messages.success(request, 'Convite enviado!')
+	messages.success(request, _('Convite enviado!'))
 	
 	return  redirect('index')
 
@@ -86,7 +86,7 @@ def convidar(request,perfil_id):
 def desfazer(request,perfil_id):
 	perfil_logado = get_perfil_logado(request)	
 	perfil_logado.desfazer_amizade(perfil_id)
-	messages.warning(request, 'Amizade desfeita!')
+	messages.warning(request, _('Amizade desfeita!'))
 	return  redirect('index')
 
 
@@ -100,7 +100,7 @@ def aceitar(request, convite_id):
 
 	convite = Convite.objects.get(id = convite_id)
 	convite.aceitar()
-	messages.success(request, 'Parabéns, você fez uma nova amizade!')
+	messages.success(request, _('Parabéns, você fez uma nova amizade!'))
 	return redirect('index')
 
 
@@ -108,7 +108,7 @@ def aceitar(request, convite_id):
 def recusar(request, convite_id):
 	convite = Convite.objects.get(id = convite_id)
 	convite.recusar()
-	messages.warning(request, 'Convite recusado')
+	messages.warning(request, _('Convite recusado'))
 
 	return redirect('index')
 
@@ -119,14 +119,13 @@ def redefinir_senha(request):
 	perfil_logado.redefinir_senha()
 
 
-@transaction.atomic
 @login_required
 def setarSuperUsuario(request, perfil_id):
 	perfil = Perfil.objects.get(id = perfil_id)
 	perfil.usuario.is_superuser = True
 	perfil.usuario.save()
 	perfil.save()
-	messages.success(request, 'Perfil atualizado como super usuário!')
+	messages.success(request, _('Perfil atualizado como super usuário!'))
 	return redirect('index')
 
 
@@ -134,7 +133,7 @@ def setarSuperUsuario(request, perfil_id):
 def bloquear(request, perfil_id):
 	perfil_logado = get_perfil_logado(request)
 	perfil_logado.bloquear_contatos(perfil_id)
-	messages.warning(request, 'Perfil bloqueado')
+	messages.warning(request, _('Perfil bloqueado'))
 	return redirect('index')
 
 
@@ -142,7 +141,7 @@ def bloquear(request, perfil_id):
 def desbloquear(request, bloqueio_id):
 	bloqueio = Bloqueio.objects.get(id = bloqueio_id)
 	bloqueio.desbloquear()
-	messages.success(request, 'Perfil desbloqueado!')
+	messages.success(request, _('Perfil desbloqueado!'))
 	return redirect('index')
 
 
@@ -150,7 +149,7 @@ def desbloquear(request, bloqueio_id):
 def deletar_postagem(request, postagem_id):
 	postagem = Postagem.objects.get(id=postagem_id)
 	postagem.excluir_postagem()
-	messages.warning(request, 'Post deletado')
+	messages.warning(request, _('Post deletado'))
 	return redirect('index')
 
 
@@ -230,7 +229,6 @@ class PerfilView(View):
 		return render(request, 'perfil.html', contexto)
 
 
-	@transaction.atomic
 	def post(self, request):
 		form = UploadFotoPerfilForm(request.POST, request.FILES)
 		perfil_logado = get_perfil_logado(request)
@@ -268,12 +266,10 @@ class PerfilView(View):
 
 
 class PostarView(View):
-	@transaction.atomic
 	def post(self, request):
 		form = PostForm(request.POST, request.FILES)
 		if form.is_valid():
 			dados_form = form.cleaned_data
-			print(dados_form)
 			postagem = Postagem()
 			postagem.dono = get_perfil_logado(request)
 			postagem.imagem_postagem = dados_form['imagem_postagem']
@@ -285,7 +281,6 @@ class PostarView(View):
 
 
 class PesquisarPerfilView(View):
-	@transaction.atomic
 	def post(self, request):
 		form = PesquisaUsuarioForm(request.POST)
 

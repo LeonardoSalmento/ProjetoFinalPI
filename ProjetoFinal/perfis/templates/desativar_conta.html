@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block body %}
 
 <div class="col-lg-5">
@@ -7,7 +8,7 @@
             <div>
             {% csrf_token %}
             <input name="justificativa" id="nome_id" required placeholder=" Nos diga o porque" style="min-height: 90px; min-width: 300px;">
-            <button class="btn btn-danger pull-right btn-confirm" >Desativar</button>
+            <button class="btn btn-danger pull-right btn-confirm" >{% trans 'Desativar' %}</button>
             </div>
             <div
                 class="modal fade"
@@ -33,7 +34,7 @@
                                 class="modal-title"
                                 id="myModalLabel"
                             >
-                                Porque você deseja desativar a sua conta?
+                                {% trans 'Porque você deseja desativar a sua conta?' %}
                             </h4>
                         </div>
 
@@ -42,12 +43,12 @@
                                 <a
                                     class="btn btn-default cd-popup-no"
                                     href="{% url 'desativar_conta' %}"
-                                >Cancelar</a>
+                                >{% trans 'Cancelar' %}</a>
 
                                 <a
                                     class="btn btn-default"
                                     href="{% url 'desativar' %}"
-                                >Excluir</a>
+                                >{% trans 'Excluir' %}</a>
                             </p>
                         </div>
                     </div>

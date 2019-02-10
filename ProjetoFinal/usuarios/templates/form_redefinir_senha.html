@@ -1,11 +1,11 @@
  {% extends "base_usuario.html" %}
-
+{% load i18n %}
 {% block body %}
 <form class = "form-signin"  method="post" 
 	action="{% url 'form_redefinir_senha' %}">
 	{% csrf_token %}
 
-	<h2 class="form-signin-heading">Redefinir Senha</h2>
+	<h2 class="form-signin-heading">{% trans 'Redefinir Senha' %}</h2>
 
 	<input 	name="senha_atual" id = "id_senha" class = "form-control"
             type = "password" required placeholder="Senha atual">
@@ -21,7 +21,7 @@
 
 
 	<button class="btn btn-lg btn-primary btn-block"
-			type = "submit">Salvar</button>
+			type = "submit">{% trans 'Salvar' %}</button>
 
 	{% if form.errors %}		
 	<div class="alert alert-danger">
