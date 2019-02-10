@@ -21,7 +21,7 @@ class Perfil(models.Model):
     usuario = models.OneToOneField(User, related_name="perfil", on_delete = models.CASCADE)
     justificativa = models.CharField(max_length=400)
     foto_perfil = models.ImageField(upload_to='fotos_perfis', null=True, blank = True)
-    
+
     @property
     def email(self):
         return self.usuario.email
@@ -139,10 +139,10 @@ class Convite(models.Model):
 
 class Postagem(models.Model):
     dono = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='minhas_postagens')
-
     texto = models.CharField(max_length=400, null=False)
     imagem_postagem = models.ImageField(upload_to='imagens_postagens', null=True, blank = True)
     data_publicacao = models.DateTimeField(auto_now_add=True)
+    
 
     class Meta:
         ordering = ['-data_publicacao']
@@ -151,6 +151,32 @@ class Postagem(models.Model):
         return self.texto
 
     def excluir_postagem(self):
+        self.delete()
+
+
+    @property
+    def curtidas(self):
+        lista_curtidas = []
+        for i in self.minhas_curtidas.all():
+            lista_curtidas.append(i.curtidor.id)
+
+        return lista_curtidas
+
+    @property
+    def total_curtidas(self):
+        curtidas = Curtida.objects.filter(post=self).exists()
+        
+        if curtidas:
+            return Curtida.objects.filter(post=self).count
+        return 0
+
+
+class Curtida(models.Model):
+    post = models.ForeignKey(Postagem, on_delete = models.CASCADE, related_name = 'minhas_curtidas')
+    curtidor = models.ForeignKey(Perfil, on_delete = models.CASCADE, related_name = 'curti')
+    
+
+    def descurtir(self):
         self.delete()
 
 

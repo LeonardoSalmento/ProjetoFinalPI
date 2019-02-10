@@ -153,6 +153,25 @@ def deletar_postagem(request, postagem_id):
 	return redirect('index')
 
 
+	
+@login_required
+def curtir(request, post_id):
+	post = Postagem.objects.get(id = post_id)
+	curtida = Curtida()
+	curtida.post = post
+	curtida.curtidor = get_perfil_logado(request)
+	curtida.save()
+	return redirect('index')
+
+
+@login_required
+def descurtir(request, post_id):
+	postagem = Postagem.objects.get(id = post_id)
+	curtida = Curtida.objects.get(post = postagem, curtidor = get_perfil_logado(request))
+	curtida.post = postagem
+	curtida.descurtir()
+	return redirect('index')
+
 @login_required
 def alterar_foto_perfil(request):
 	return render(request, 'alterar_foto_perfil.html', {'perfil_logado': get_perfil_logado(request)} )

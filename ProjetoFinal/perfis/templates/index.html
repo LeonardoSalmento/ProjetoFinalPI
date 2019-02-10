@@ -156,16 +156,45 @@
                         <img src="/static/img/photo.jpg" style="width:40px; height:50px">
                     {% endif %}
                     </div>
-
+            
                     <div class="col-lg-10">
 
                         <h3>{{ postagem.dono }}</h3>
                     </div>
                 </div>
+                    <div style="text-align:center;">
                     <p>{{ postagem }}</p>
                     {% if postagem.imagem_postagem %}
                         <img src="{{ postagem.imagem_postagem.url }}" style="width:200px; height:150px">
                     {% endif %}
+                    </div>
+                    <br>
+
+
+
+
+
+
+                    {% if perfil_logado.id not in postagem.curtidas %}
+                        <a href="{% url 'curtir' postagem.id %}">like</a>
+                    {% else %}
+                        <a href="{% url 'descurtir' postagem.id %}">deslike</a>
+
+                    {% endif %}
+                        {{postagem.total_curtidas}}
+
+
+
+
+
+
+
+
+
+
+
+
+                        
 
                     {% if postagem.dono.id == perfil_logado.id %}
 

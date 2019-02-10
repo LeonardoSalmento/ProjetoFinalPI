@@ -40,6 +40,8 @@ urlpatterns = [
     path('perfil/ativar', views.AtivarContaView.as_view(), name='ativar'),
     path('registrar/', RegistrarUsuarioView.as_view(), name="registrar"),
     path('perfil/alterar_foto', views.alterar_foto_perfil, name='alterar_foto_perfil'),
+    path('postagem/<int:post_id>/curtir', views.curtir, name='curtir'),
+    path('postagem/<int:post_id>/descurtir', views.descurtir, name='descurtir'),
     path('login/', v.LoginView.as_view(), name="login"),
     path('logout/', v.LogoutView.as_view(template_name = 'login.html'), name="logout"),
     path('perfil/<int:perfil_id>/super', views.setarSuperUsuario, name='super'),
