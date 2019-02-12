@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-10 01:49-0300\n"
-"PO-Revision-Date: 2019-02-10 11:45-0300\n"
+"POT-Creation-Date: 2019-02-12 00:51-0300\n"
+"PO-Revision-Date: 2019-02-12 00:51-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
@@ -34,13 +34,22 @@ msgstr "Enable"
 msgid "Usuário ou senha não combinam"
 msgstr "User or password does not match"
 
+#: .\perfis\templates\base.html:33
+msgid "Pesquisar usuário"
+msgstr "Search for users"
+
 #: .\perfis\templates\base.html:34
 msgid "Pesquisar"
 msgstr "Search"
 
-#: .\perfis\templates\base.html:40
+#: .\perfis\templates\base.html:54
 msgid "Logout"
 msgstr "Logout"
+
+#: .\perfis\templates\comentar_postagem.html:43
+#: .\perfis\templates\index.html:193
+msgid "Comentar"
+msgstr "Comment"
 
 #: .\perfis\templates\desativar_conta.html:11
 msgid "Desativar"
@@ -50,14 +59,14 @@ msgstr "Disable"
 msgid "Porque você deseja desativar a sua conta?"
 msgstr "Why do you want to deactivate your account?"
 
-#: .\perfis\templates\desativar_conta.html:46 .\perfis\templates\index.html:207
-#: .\perfis\templates\index.html:362 .\perfis\templates\perfil.html:136
+#: .\perfis\templates\desativar_conta.html:46 .\perfis\templates\index.html:242
+#: .\perfis\templates\index.html:397 .\perfis\templates\perfil.html:136
 #: .\perfis\templates\perfil.html:254
 msgid "Cancelar"
 msgstr "Cancel"
 
-#: .\perfis\templates\desativar_conta.html:51 .\perfis\templates\index.html:172
-#: .\perfis\templates\index.html:212 .\perfis\templates\perfil.html:101
+#: .\perfis\templates\desativar_conta.html:51 .\perfis\templates\index.html:207
+#: .\perfis\templates\index.html:247 .\perfis\templates\perfil.html:101
 #: .\perfis\templates\perfil.html:141
 msgid "Excluir"
 msgstr "Delete"
@@ -92,8 +101,8 @@ msgid "Todos os perfis"
 msgstr "All Profiles"
 
 #: .\perfis\templates\index.html:123
-msgid "Compartilhe algo conosco...."
-msgstr "Share somethin with us..."
+msgid " Compartilhe algo conosco.... "
+msgstr " Share somethin with us... "
 
 #: .\perfis\templates\index.html:128
 msgid "Postar"
@@ -103,40 +112,40 @@ msgstr "Post"
 msgid "Linha do Tempo"
 msgstr "Timeline"
 
-#: .\perfis\templates\index.html:198 .\perfis\templates\perfil.html:127
+#: .\perfis\templates\index.html:233 .\perfis\templates\perfil.html:127
 msgid "Deseja realmente excluir a postagem?"
 msgstr "Do you really want to delete the post?"
 
-#: .\perfis\templates\index.html:231
+#: .\perfis\templates\index.html:266
 msgid "Não há postagens"
 msgstr "There are no posts"
 
-#: .\perfis\templates\index.html:245 .\perfis\templates\perfil.html:175
+#: .\perfis\templates\index.html:280 .\perfis\templates\perfil.html:175
 msgid "Anterior"
 msgstr "Previous"
 
-#: .\perfis\templates\index.html:278 .\perfis\templates\perfil.html:208
+#: .\perfis\templates\index.html:313 .\perfis\templates\perfil.html:208
 msgid "Próxima"
 msgstr "Next"
 
-#: .\perfis\templates\index.html:300
+#: .\perfis\templates\index.html:335
 #, python-format
 msgid " Convite%(total|pluralize)s aguardando aprovação "
 msgstr " Invite%(total|pluralize)s waiting Approal "
 
-#: .\perfis\templates\index.html:315
+#: .\perfis\templates\index.html:350
 msgid "recusar"
 msgstr "refuse"
 
-#: .\perfis\templates\index.html:320
+#: .\perfis\templates\index.html:355
 msgid "aceitar"
 msgstr "accept"
 
-#: .\perfis\templates\index.html:329 .\perfis\templates\index.html:371
+#: .\perfis\templates\index.html:364 .\perfis\templates\index.html:406
 msgid "Não há convites"
 msgstr "There are no invitations"
 
-#: .\perfis\templates\index.html:343
+#: .\perfis\templates\index.html:378
 #, python-format
 msgid "%(total)s Convite%(total|pluralize)s enviado%(total|pluralize)s "
 msgstr "%(total)s  Invite%(total|pluralize)s sent%(total|pluralize)s "
@@ -282,40 +291,45 @@ msgstr "To reactivate your account"
 msgid "clique aqui."
 msgstr "click here."
 
+#: .\perfis\templates\registration\login.html:27
+#: .\usuarios\templates\login.html:27
+msgid "Registre-se"
+msgstr "Sigin up"
+
 #: .\perfis\templates\registration\login.html:28
 #: .\usuarios\templates\login.html:28
 msgid "Esqueci a senha"
 msgstr "I forgot the password"
 
-#: .\perfis\views.py:80
+#: .\perfis\views.py:86
 msgid "Convite enviado!"
 msgstr "Invitation sent!"
 
-#: .\perfis\views.py:89
+#: .\perfis\views.py:95
 msgid "Amizade desfeita!"
 msgstr "Unmade Friendship!"
 
-#: .\perfis\views.py:103
+#: .\perfis\views.py:109
 msgid "Parabéns, você fez uma nova amizade!"
 msgstr "Congratulations, you've made a new friendship!"
 
-#: .\perfis\views.py:111
+#: .\perfis\views.py:117
 msgid "Convite recusado"
 msgstr "Invitation refused"
 
-#: .\perfis\views.py:128
+#: .\perfis\views.py:134
 msgid "Perfil atualizado como super usuário!"
 msgstr "Profile updated as Super user!"
 
-#: .\perfis\views.py:136
+#: .\perfis\views.py:142
 msgid "Perfil bloqueado"
 msgstr "Profile Locked"
 
-#: .\perfis\views.py:144
+#: .\perfis\views.py:150
 msgid "Perfil desbloqueado!"
 msgstr "Profile Unlocked!"
 
-#: .\perfis\views.py:152
+#: .\perfis\views.py:158
 msgid "Post deletado"
 msgstr "Deleted Post"
 
@@ -326,10 +340,6 @@ msgstr "Redefine password"
 #: .\usuarios\templates\form_redefinir_senha.html:24
 msgid "Salvar"
 msgstr "Save"
-
-#: .\usuarios\templates\login.html:27
-msgid "Registre-se"
-msgstr "Sigin up"
 
 #: .\usuarios\templates\registrar.html:8
 msgid "Crie seu usuário"

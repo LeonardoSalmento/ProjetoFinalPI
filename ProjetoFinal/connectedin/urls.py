@@ -57,6 +57,7 @@ urlpatterns = [
     path('password_reset/done/', v.PasswordResetDoneView.as_view(template_name='password_reset_done.html'), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', v.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),
     path('reset/done/', v.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
+    path('i18n/', include('django.conf.urls.i18n')),
     path('api-token-auth/', obtain_auth_token),
     path('api-token-auth2/', views.CustomAuthToken.as_view()),
 

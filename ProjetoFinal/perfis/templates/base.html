@@ -30,11 +30,25 @@
 						<form class="form-signin" method="post" action="{% url 'pesquisar' %}">
 
 							{% csrf_token %}
-							<input name="nome" id="nome_id" required placeholder="   Pesquisar usuário" style="min-height: 33px; min-width: 300px;">
+							<input name="nome" id="nome_id" required placeholder="{% trans   'Pesquisar usuário' %}" style="min-height: 33px; min-width: 300px;">
 							<button class="btn btn-primary" type="submit">{% trans 'Pesquisar' %}</button>
 						</form>
 					</div>
 				</li>
+				<li><form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+      <input name="next" type="hidden" value="{{ redirect_to }}">
+      <select name="language">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+          <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+            {{ language.name_local }} ({{ language.code }})
+          </option>
+        {% endfor %}
+      </select>
+      <input type="submit" value="Go">
+    </form></li>
 
 				<li><a href="{% url 'meu_perfil' %}">{{ perfil_logado.nome }}</a></li>
 				<li><a href="/logout/">{% trans 'Logout' %}</a></li>
