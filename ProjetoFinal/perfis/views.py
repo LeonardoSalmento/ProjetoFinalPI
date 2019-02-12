@@ -13,6 +13,8 @@ from .serializers import *
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import viewsets, generics, permissions
 from rest_framework.response import Response
+from perfis.serializers import PostagemSerializer
+
 
 
 
@@ -345,3 +347,15 @@ class CustomAuthToken(ObtainAuthToken):
 		user = serializer.validated_data['user']
 		token, created = Token.objects.get_or_create(user=user)
 		return Response({'token': token.key, 'user_id': user.id, 'email': user.email })
+
+
+class PostagemView(viewsets.ModelViewSet):
+	queryset = Postagem.objects.all()
+	serializer_class = PostagemSerializer
+	serializer_detail_class = PostagemSerializer
+
+
+class PostagemList(generics.ListCreateAPIView): 
+	queryset = Postagem.objects.all() 
+	serializer_class = PostagemSerializer 
+	name = 'postagem-list'

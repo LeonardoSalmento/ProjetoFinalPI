@@ -19,15 +19,22 @@ from perfis import views
 from usuarios.views import *
 from django.contrib.auth import views as v
 from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework import routers
+from perfis.views import PostagemView
 
 from django.conf import settings
 from django.conf.urls.static import static
 
 
+router = routers.DefaultRouter()
+
+router.register(r'postagens', PostagemView, base_name='postagens')
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index,name='index'),
+    path('index/', views.index,name='index'),
     path('perfil/<int:perfil_id>', views.exibir_perfil, name='exibir'),
     path('perfil/', views.PerfilView.as_view(), name='meu_perfil'),
     path('perfil/<int:perfil_id>/convidar', views.convidar, name='convidar'),
@@ -63,3 +70,4 @@ urlpatterns = [
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+urlpatterns = router.urls + urlpatterns
