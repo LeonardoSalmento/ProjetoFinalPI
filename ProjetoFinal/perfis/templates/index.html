@@ -170,26 +170,32 @@
                     </div>
                     <br>
 
-                    {% if perfil_logado.id not in postagem.curtidas %}
-                        <a href="{% url 'curtir' postagem.id %}">like</a>
-                    {% else %}
-                        <a href="{% url 'descurtir' postagem.id %}">deslike</a>
+                    
+                    <div class="row">
+                        <div class="col-lg-1" style="margin-left:10px;">
+                            {% if perfil_logado.id not in postagem.curtidas %}
+                                <a href="{% url 'curtir' postagem.id %}">like</a>
+                            {% else %}
+                                <a href="{% url 'descurtir' postagem.id %}">deslike</a>
 
-                    {% endif %}
-                        {{postagem.total_curtidas}}
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-1">
+                            {{postagem.total_curtidas}}
+                        </div>
 
 
+                        <div class="col-lg-8">
 
+                            <div style="text-align:center;">
+                                
 
-                    <div style="text-align:center;">
-                        {% if postagem.meus_comentarios.all %}
-
-                        <h5><a href="{% url 'comentar_postagem' postagem.id %}">Comentários... </a></h5>    
-                        {% else %}
-
-                        <h5> Ainda não há comentários, seja o primeiro a <a href="{% url 'comentar_postagem' postagem.id %}">comentar</a></h5>
-                        {% endif %}
-                    </div>     
+                                <h5><a href="{% url 'comentar_postagem' postagem.id %}">Comentar</a></h5>    
+                                
+                            </div>
+                        </div>
+                </div>     
+                    
 
 
 
@@ -414,15 +420,6 @@
             $("#mi-modal").modal('show');
         });
 
-        $("#modal-btn-si").on("click", function () {
-            callback(true);
-            $("#mi-modal").modal('hide');
-        });
-
-        $("#modal-btn-no").on("click", function () {
-            callback(false);
-            $("#mi-modal").modal('hide');
-        });
     };
 
     modalConfirm(function (confirm) {
